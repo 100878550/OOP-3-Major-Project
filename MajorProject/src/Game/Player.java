@@ -28,28 +28,28 @@ public class Player {
     }
 
     // Move player while checking collisions
-    public void move(int dx, int dy, Room level, TileManager tileManager, int tileSize) {
+    public void move(int dx, int dy, Room room, TileManager tileManager, int tileSize) {
 
         // check X movement
         Rectangle nextX = new Rectangle(x + dx, y, width, height);
-        if (!collides(nextX, level, tileManager, tileSize)) {
+        if (!collides(nextX, room, tileManager, tileSize)) {
             x += dx;
         }
 
         // check Y movement
         Rectangle nextY = new Rectangle(x, y + dy, width, height);
-        if (!collides(nextY, level, tileManager, tileSize)) {
+        if (!collides(nextY, room, tileManager, tileSize)) {
             y += dy;
         }
     }
 
     // Check if player hits any solid tile
-    private boolean collides(Rectangle player, Room level, TileManager tileManager, int tileSize) {
+    private boolean collides(Rectangle player, Room room, TileManager tileManager, int tileSize) {
 
-        for (int r = 0; r < level.getRows(); r++) {
-            for (int c = 0; c < level.getCols(); c++) {
+        for (int r = 0; r < room.getRows(); r++) {
+            for (int c = 0; c < room.getCols(); c++) {
 
-                Tile tile = tileManager.getTile(level.getTileId(r, c));
+                Tile tile = tileManager.getTile(room.getTileId(r, c));
 
                 if (tile.isSolid()) {
                     Rectangle tileRect = new Rectangle(
