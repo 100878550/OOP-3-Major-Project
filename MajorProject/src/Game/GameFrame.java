@@ -8,7 +8,7 @@ public class GameFrame extends JFrame {
 
     public GameFrame() {
         setTitle("Game");
-        setSize(1280, 768);
+        setSize(1296, 807);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

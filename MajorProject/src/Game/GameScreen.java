@@ -3,10 +3,12 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 // Main gameplay screen
 public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
+	
     private GameFrame frame;
     private Timer timer;
 
@@ -15,18 +17,27 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     private TileManager tileManager;
     private Room room;
     private Player player;
+    private Enemy enemy;
 
     private boolean up, down, left, right;
+    
+	Random random = new Random();
 
     public GameScreen(GameFrame frame) {
         this.frame = frame;
 
         setFocusable(true);
         addKeyListener(this);
+        
+        int randomX = random.nextInt(100,1100);
+        int randomY = random.nextInt(100,900);
 
         tileManager = new TileManager();
         room = RoomData.getRoom(1);
-        player = new Player(100, 100);
+        player = new Player(200, 200);
+        enemy = new Enemy(randomX,randomY);
+        
+        System.out.println(randomX + " " + randomY);
 
         timer = new Timer(16, this); // game loop
         timer.start();
@@ -38,6 +49,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
         drawMap(g);   // draw tiles
         player.draw(g); // draw player
+        enemy.draw(g);
     }
 
     // Draw all tiles

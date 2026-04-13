@@ -24,7 +24,15 @@ public class StatsScreen extends JPanel implements KeyListener {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g.setColor(Color.WHITE);
-        g.drawString("STATS SCREEN", 420, 200);
+        
+        //Highscore Stats
+        g.drawString("HIGHSCORE:", 420, 200);
+        g.drawString("99999999", 500, 200); //Placeholder Number
+        
+        //Kills Stats
+        g.drawString("KILLS:", 420, 220);
+        g.drawString("9999", 500, 220); //Placeholder Number
+        
 
     }
 
