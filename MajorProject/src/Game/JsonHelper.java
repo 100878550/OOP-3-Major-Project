@@ -26,29 +26,37 @@ public class JsonHelper {
 		
 	}
 	
-	// Writes onto the JSON file
+	// Writes stats into the json file (creating it if necessary)
 	public static void WriteJSON(int scores, int kills, int deaths) {
 		
+		// Creates the writer object
 		File stats = new File(STATS_JSON);
 		FileWriter out;
 		BufferedWriter writeFile;
 		
+		// Check if the file exist
 		if (!stats.exists()) {
 			
+			// If file does not exist
 			try {
 				stats.createNewFile();
-			} catch (IOException error) {
+			} 
+			
+			// If file could not be made
+			catch (IOException error) {
 				System.out.println(error);
 			}
 		
 		}
 		
+		// Writes stats into the file
 		try {
 			
+			// Initializes the writer object
 			out = new FileWriter(stats);
 			writeFile = new BufferedWriter(out);
 			
-			
+			// Writes data into the file
 			writeFile.write(
 					"{\n"
 					+ "\"scores\":\"" + scores + "\",\n"
@@ -57,8 +65,11 @@ public class JsonHelper {
 					+ "}"
 					);
 			
+			// Closes the writer
+			out.close();
 			writeFile.close();
 			
+		// If an error occurs
 		} catch (IOException error) {
 			
 		}
