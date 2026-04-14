@@ -1,6 +1,7 @@
 package Game;
 
 import java.io.*;
+import java.util.*;
 
 public class JsonHelper {
 	
@@ -10,29 +11,56 @@ public class JsonHelper {
 	
 	
 	// Reads the json File
-	public static void ReadJSON() {
+	public static String ReadJSON() {
 		
+		// Initializes the file
 		File stats = new File(STATS_JSON);
 		
-		// Checks if the file exists
+		// Creates the reader object
+		Scanner input;
+		
+		//
+		String readStats = "";
+		
+		// Check if the file exist
 		if (!stats.exists()) {
 			
+			// If file does not exist
 			try {
 				stats.createNewFile();
-			} catch (IOException error) {
-				System.out.println("File does not exist and can't be created");
+			} 
+			
+			// If file could not be made
+			catch (IOException error) {
+				System.out.println(error);
 			}
+		
 		}
+		
+		// Reads stats from the file
+		try {
+			input = new Scanner(stats);
+			
+			// Loops until the entire file is read
+			while(input.hasNextLine()) {
+				readStats += input.nextLine() + "\n";
+			}
+		} catch (IOException error) {
+			
+		}
+		return readStats;
+	    
 		
 	}
 	
 	// Writes stats into the json file (creating it if necessary)
 	public static void WriteJSON(int scores, int kills, int deaths) {
 		
-		// Creates the writer object
+		// Initializes the file
 		File stats = new File(STATS_JSON);
-		FileWriter out;
-		BufferedWriter writeFile;
+		
+		// Creates the writer object
+		FileWriter output;
 		
 		// Check if the file exist
 		if (!stats.exists()) {
@@ -53,11 +81,10 @@ public class JsonHelper {
 		try {
 			
 			// Initializes the writer object
-			out = new FileWriter(stats);
-			writeFile = new BufferedWriter(out);
+			output = new FileWriter(stats);
 			
 			// Writes data into the file
-			writeFile.write(
+			output.write(
 					"{\n"
 					+ "\"scores\":\"" + scores + "\",\n"
 					+ "\"kills\":\"" + kills + "\",\n"
@@ -66,8 +93,7 @@ public class JsonHelper {
 					);
 			
 			// Closes the writer
-			out.close();
-			writeFile.close();
+			output.close();
 			
 		// If an error occurs
 		} catch (IOException error) {
