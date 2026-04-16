@@ -19,9 +19,14 @@ public class TileManager {
         try {
             BufferedImage floor = ImageIO.read(getClass().getResource("/assets/tiles/floor.png"));
             BufferedImage wall = ImageIO.read(getClass().getResource("/assets/tiles/wall.png"));
+            BufferedImage door = ImageIO.read(getClass().getResource("/assets/tiles/1.png"));
 
             tiles[0] = new Tile(floor, false); // floor = walkable
             tiles[1] = new Tile(wall, true);   // wall = solid
+            tiles[2] = new Tile(floor,false); // Player spawn, is just a tile
+            tiles[3] = new Tile(floor,false); // enemy spawn, same as player spawn
+            tiles[4] = new Tile(door,false); // Door, self explanatory
+            	
 
         } catch (IOException e) {
             e.printStackTrace();
