@@ -25,6 +25,9 @@ public class StatsScreen extends JPanel implements KeyListener {
 
         g.setColor(Color.WHITE);
         
+        // Hardcoding these values isnt very smart.
+        // need to figure out another way to do this.
+        
         //Highscore Stats
         g.drawString("HIGHSCORE:", 420, 200);
         g.drawString("99999999", 500, 200); //Placeholder Number
@@ -33,6 +36,10 @@ public class StatsScreen extends JPanel implements KeyListener {
         g.drawString("KILLS:", 420, 220);
         g.drawString("9999", 500, 220); //Placeholder Number
         
+        
+        
+        g.drawString("Total Rooms Cleared",420,240);
+        g.drawString("5",540,240); // place holder
 
     }
 

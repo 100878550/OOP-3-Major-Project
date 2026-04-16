@@ -73,8 +73,19 @@ public class Player {
     public void draw(Graphics g) {
         g.drawImage(image, x, y, width, height, null);
     }
+    
+    public void setPosition(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
 
     public int getSpeed() {
         return speed;
+    }
+    public int getX() {
+    	return x;
+    }
+    public int getY() {
+    	return y;
     }
 }
