@@ -17,6 +17,8 @@ public class TileManager {
     // Loads tile images from files
     private void loadTiles() {
         try {
+        	
+        	// Add the sprites for each type of tile used currently.
             BufferedImage floor = ImageIO.read(getClass().getResource("/assets/tiles/floor.png"));
             BufferedImage wall = ImageIO.read(getClass().getResource("/assets/tiles/wall.png"));
             BufferedImage door = ImageIO.read(getClass().getResource("/assets/tiles/1.png"));

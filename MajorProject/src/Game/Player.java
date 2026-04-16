@@ -47,11 +47,13 @@ public class Player {
     // Check if player hits any solid tile
     private boolean collides(Rectangle player, Room level, TileManager tileManager, int tileSize) {
 
-        for (int r = 0; r < level.getRows(); r++) {
-            for (int c = 0; c < level.getCols(); c++) {
+        for (int r = 0; r < level.getRows(); r++) { // rows
+            for (int c = 0; c < level.getCols(); c++) { // columns
 
+            	//  set the tile to the tile the player is on
                 Tile tile = tileManager.getTile(level.getTileId(r, c));
 
+                // check if the tile is walkable
                 if (tile.isSolid()) {
                     Rectangle tileRect = new Rectangle(
                         c * tileSize,
@@ -59,7 +61,7 @@ public class Player {
                         tileSize,
                         tileSize
                     );
-
+                    
                     if (player.intersects(tileRect)) {
                         return true;
                     }

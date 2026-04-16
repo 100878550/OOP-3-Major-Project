@@ -10,19 +10,20 @@ import java.util.ArrayList;
 public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
 	
-	private ArrayList<Enemy> enemies = new ArrayList<>();
-    private GameFrame frame;
-    private Timer timer;
+	// Variables 
+	private ArrayList<Enemy> enemies = new ArrayList<>(); // List of enemies on screen
+    private GameFrame frame; // window
+    private Timer timer; //??????
 
-    private final int TILE_SIZE = 64;
+    private final int TILE_SIZE = 64; 
 
     private TileManager tileManager;
-    private Room room;
-    private Player player;
+    private Room room; // room on screen
+    private Player player; // player entity on screen
     
-    private boolean canChangeRoom = true;
+    private boolean canChangeRoom = true; // used to check whether the player is on a door tile in a new room
  
-
+    // player key movements
     private boolean up, down, left, right,sprint;
     
 	private Random random = new Random();
@@ -45,8 +46,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         int spawnCol = 0;
 
         // find the player spawn when room is generated
-        for (int r = 0; r < room.getRows(); r++) {
-            for (int c = 0; c < room.getCols(); c++) {
+        for (int r = 0; r < room.getRows(); r++) { // rows
+            for (int c = 0; c < room.getCols(); c++) { // columns
                 if (room.getTileId(r, c) == 2) {
                     spawnRow = r;
                     spawnCol = c;
@@ -68,8 +69,13 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // I'd like to make an array of entities and then just draw entities in a loop here.
+        
+        
         drawMap(g);   // draw tiles
         player.draw(g); // draw player
+        
+        // Draw the enemies on the screen
         for(Enemy e : enemies) {
         	e.draw(g);
         }
@@ -77,8 +83,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
     // Draw all tiles
     private void drawMap(Graphics g) {
-        for (int r = 0; r < room.getRows(); r++) {
-            for (int c = 0; c < room.getCols(); c++) {
+        for (int r = 0; r < room.getRows(); r++) { // rows 
+            for (int c = 0; c < room.getCols(); c++) { // columns
 
                 Tile tile = tileManager.getTile(room.getTileId(r, c));
 
@@ -99,26 +105,36 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         int dx = 0;
         int dy = 0;
 
+        
+        // create player speed and check whether sprint is true. if true multiply by 2 if not, keep it chill
         int currentSpeed = sprint ? player.getSpeed() * 2 : player.getSpeed();
-        if (left) dx -= currentSpeed;
-        if (right) dx += currentSpeed;
-        if (up) dy -= currentSpeed;
-        if (down) dy += currentSpeed;
+        
+        if (left) dx -= currentSpeed; // add speed going left
+        if (right) dx += currentSpeed; // add speed going right
+        if (up) dy -= currentSpeed; // add speed going up
+        if (down) dy += currentSpeed;// add speed going down
         
 
+        // move the player 
         player.move(dx, dy, room, tileManager, TILE_SIZE);
         
+        
+        // check where the player is
         int tileX = player.getX() / TILE_SIZE;
         int tileY = player.getY() / TILE_SIZE;
 
+        
+        
+        // if the player's coordinates are NOT found on a door tile, set canChangeRoom to true
         if (room.getTileId(tileY, tileX) != 4) {
             canChangeRoom = true;
         }    
         
 
+        // If a player is found on a door tile, change canChangeRoom to false and load a new room
         if (room.getTileId(tileY, tileX) == 4 && canChangeRoom) {
         	canChangeRoom = false;
-            loadNewRoom();
+            loadNewRoom(); // method to fetch a new room
         }
         
         repaint(); // redraw screen
@@ -150,14 +166,19 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     }
     
     
+    
+    // Method that handles enemy spawns
     private void spawnEnemiesFromRoom() {
-        int spawnChance = 100; // % chance per tile
+        int spawnChance = 100; // % chance per tile, set at 100% for testing purposes.
 
-        for (int r = 0; r < room.getRows(); r++) {
-            for (int c = 0; c < room.getCols(); c++) {
+        for (int r = 0; r < room.getRows(); r++) { // rows
+            for (int c = 0; c < room.getCols(); c++) { // columns
 
-                if (room.getTileId(r, c) == 3) { // tile 3 is possible spawns
+                if (room.getTileId(r, c) == 3) { // tiles that are numbered 3, are enemy spawns
 
+                	
+                	// generate a random number between 0 and 100 and if lower
+                	// spawn an enemy on the spawn tile currently targeted.
                     if (random.nextInt(100) < spawnChance) {
 
                         int x = c * TILE_SIZE;
@@ -170,13 +191,17 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    // Method to load a new room
     private void loadNewRoom() {
 
         enemies.clear(); // remove old enemies
 
-        int randomRoom = random.nextInt(1, 7);
+        // randomize the next room to be picked
+        int randomRoom = random.nextInt(1, RoomData.getRoomCount() -1);
+        // set the randomized room to the current active one
         room = RoomData.getRoom(randomRoom);
 
+        // call the enemy spawn method
         spawnEnemiesFromRoom();
 
         

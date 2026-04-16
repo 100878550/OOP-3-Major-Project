@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
+// this entire class is just fuckin drag and drop coding.
 public class MainMenuScreen extends JPanel implements MouseListener, MouseMotionListener {
 
     private GameFrame frame;
