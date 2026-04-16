@@ -9,50 +9,6 @@ public class JsonHelper {
 	// Constants
 	static final String STATS_JSON = "storage\\stats.json";
 	
-	
-	// Reads the json File
-	public static String ReadJSON() {
-		
-		// Initializes the file
-		File stats = new File(STATS_JSON);
-		
-		// Creates the reader object
-		Scanner input;
-		
-		//
-		String readStats = "";
-		
-		// Check if the file exist
-		if (!stats.exists()) {
-			
-			// If file does not exist
-			try {
-				stats.createNewFile();
-			} 
-			
-			// If file could not be made
-			catch (IOException error) {
-				System.out.println(error);
-			}
-		
-		}
-		
-		// Reads stats from the file
-		try {
-			input = new Scanner(stats);
-			
-			// Loops until the entire file is read
-			while(input.hasNextLine()) {
-				readStats += input.nextLine() + "\n";
-			}
-		} catch (IOException error) {
-			
-		}
-		return readStats;
-	    
-		
-	}
-	
 	// Writes stats into the json file (creating it if necessary)
 	public static void WriteJSON(int scores, int kills, int deaths) {
 		
@@ -67,6 +23,8 @@ public class JsonHelper {
 			
 			// If file does not exist
 			try {
+				
+				// Create a new file
 				stats.createNewFile();
 			} 
 			
@@ -97,8 +55,49 @@ public class JsonHelper {
 			
 		// If an error occurs
 		} catch (IOException error) {
-			
+			System.out.println(error);
 		}
+	}
+	
+	// Reads stats in the json File
+	public static String ReadJSON() {
+		
+		// Initializes the file
+		File stats = new File(STATS_JSON);
+		
+		// Creates the reader object
+		Scanner input;
+		
+		//
+		String readStats = "";
+		
+		// Check if the file exist
+		if (!stats.exists()) {
+			
+			// If file does not exist
+			WriteJSON(0, 0, 0);
+		
+		}
+		
+		// Reads stats from the file
+		try {
+			input = new Scanner(stats);
+			
+			// Loops until the entire file is read
+			while(input.hasNextLine()) {
+				readStats += input.nextLine() + "\n";
+			}
+			
+			// Closes the reader
+			input.close();
+
+		// If an error occurs
+		} catch (IOException error) {
+			System.out.println(error);
+		}
+		return readStats;
+	    
+		
 	}
 
 }
