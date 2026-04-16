@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Enemy {
 	
+	// add colision and damage on colision
     private int x, y;
     private int width = 48, height = 48;
     private int speed = 6;
@@ -21,7 +22,7 @@ public class Enemy {
 
         // load enemy image
         try {
-            image = ImageIO.read(getClass().getResource("/assets/enemy.png"));
+            image = ImageIO.read(getClass().getResource("/assets/enemy.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }

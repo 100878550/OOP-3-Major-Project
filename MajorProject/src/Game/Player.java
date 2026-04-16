@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 // Handles player movement and collision
 public class Player {
 
+	//add hearts as 3 and make method for when damage is taken. maybe add a immune frames
     private int x, y;
     private int width = 48, height = 48;
     private int speed = 4;
@@ -21,7 +22,7 @@ public class Player {
 
         // load player image
         try {
-            image = ImageIO.read(getClass().getResource("/assets/player.png"));
+            image = ImageIO.read(getClass().getResource("/assets/player.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
