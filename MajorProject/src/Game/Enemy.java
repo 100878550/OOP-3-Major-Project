@@ -1,41 +1,24 @@
 package Game;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class Enemy {
+public class Enemy extends Entity{
 	
-	// add colision and damage on colision
-    private int x, y;
-    private int width = 48, height = 48;
-    private int speed = 6;
-    
-    private BufferedImage image;
-    
     public Enemy(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x,y,6,loadImage());
 
-        // load enemy image
+    }
+    private static BufferedImage loadImage() {
         try {
-            image = ImageIO.read(getClass().getResource("/assets/enemy.gif"));
+            return ImageIO.read(Player.class.getResource("/assets/enemies/lilfuckinrat.png"));
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
-    
-    // draw enemy
-    public void draw(Graphics g) {
-        g.drawImage(image, x, y, width, height, null);
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-    
 
 }

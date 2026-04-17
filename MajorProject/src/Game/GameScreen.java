@@ -5,13 +5,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 
-// Main gameplay screen
+// Main gameplay file.
 public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
 	
+	private BufferedImage[][] ratSpriteSheet; // Store the sliced images here
+	
 	// Variables 
-	private ArrayList<Enemy> enemies = new ArrayList<>(); // List of enemies on screen
+	private ArrayList<Rat> rats = new ArrayList<>(); // List of enemies on screen
     private GameFrame frame; // window
     private Timer timer; //??????
 
@@ -34,33 +37,30 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         addKeyListener(this);
         
-        int randomRoom = random.nextInt(1,7);
+        
+        
+        // load sprites
+        SpriteLoader loader = new SpriteLoader();
+        
+        ratSpriteSheet = loader.loadSprites("/Assets/Enemies/lilfuckinrat.png",32,32);
+        
+        int randomRoom = random.nextInt(1, RoomData.getRoomCount() -1);
         tileManager = new TileManager();
         room = RoomData.getRoom(randomRoom);
+        
+        player = new Player(
+        	    0 * TILE_SIZE,
+        	    0 * TILE_SIZE
+        	);
         
         spawnEnemiesFromRoom();
         
         
-        
-        int spawnRow = 0;
-        int spawnCol = 0;
 
-        // find the player spawn when room is generated
-        for (int r = 0; r < room.getRows(); r++) { // rows
-            for (int c = 0; c < room.getCols(); c++) { // columns
-                if (room.getTileId(r, c) == 2) {
-                    spawnRow = r;
-                    spawnCol = c;
-                }
-            }
-        }
+        movePlayer();
         
         // place the player at the location
-        player = new Player(
-        	    spawnCol * TILE_SIZE,
-        	    spawnRow * TILE_SIZE
-        	);
-
+        
         timer = new Timer(16, this); // game loop
         timer.start();
     }
@@ -76,8 +76,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         player.draw(g); // draw player
         
         // Draw the enemies on the screen
-        for(Enemy e : enemies) {
-        	e.draw(g);
+        for(Rat r : rats) {
+        	r.draw(g);
         }
     }
 
@@ -137,6 +137,12 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
             loadNewRoom(); // method to fetch a new room
         }
         
+        for (Enemy e_rat : rats) {
+        	if (e_rat instanceof Rat) {
+        		((Rat) e_rat).update();
+        	}
+        }
+        
         repaint(); // redraw screen
     }
 
@@ -184,7 +190,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
                         int x = c * TILE_SIZE;
                         int y = r * TILE_SIZE;
 
-                        enemies.add(new Enemy(x, y));
+                        rats.add(new Rat(ratSpriteSheet, x, y));
                     }
                 }
             }
@@ -194,7 +200,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     // Method to load a new room
     private void loadNewRoom() {
 
-        enemies.clear(); // remove old enemies
+        rats.clear(); // remove old enemies
 
         // randomize the next room to be picked
         int randomRoom = random.nextInt(1, RoomData.getRoomCount() -1);
@@ -204,10 +210,12 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         // call the enemy spawn method
         spawnEnemiesFromRoom();
 
-        
-        
         // reposition player to spawn tile
-        for (int r = 0; r < room.getRows(); r++) {
+        movePlayer();
+    }
+    
+    public void movePlayer() {
+    	for (int r = 0; r < room.getRows(); r++) {
             for (int c = 0; c < room.getCols(); c++) {
 
                 if (room.getTileId(r, c) == 2) {
