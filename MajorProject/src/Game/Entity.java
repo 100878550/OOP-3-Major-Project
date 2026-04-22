@@ -51,7 +51,7 @@ public abstract class Entity {
     }
     
     // Move entity while checking collisions
-    public void move(int dx, int dy, Room level, TileManager tileManager, int tileSize) {
+    public void move(int dx, int dy, Room level, TileManager tileManager, int tileSize, boolean collides) {
 
         // check X movement
         Rectangle nextX = new Rectangle(x + dx, y, width, height);

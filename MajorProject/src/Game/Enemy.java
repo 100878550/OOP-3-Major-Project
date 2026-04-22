@@ -21,4 +21,8 @@ public class Enemy extends Entity{
         }
     }
 
+    @Override
+    public void update() {
+    	
+    }
 }
