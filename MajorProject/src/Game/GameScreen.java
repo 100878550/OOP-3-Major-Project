@@ -18,11 +18,14 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     private GameFrame frame; // window
     private Timer timer; //??????
 
+    
     private final int TILE_SIZE = 64; 
 
     private TileManager tileManager;
     private Room room; // room on screen
     private Player player; // player entity on screen
+    private HeartDisplay hearts = new HeartDisplay(); // heart containers on screen
+    
     
     private boolean canChangeRoom = true; // used to check whether the player is on a door tile in a new room
  
@@ -58,7 +61,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         
 
         movePlayer();
-        
+        hearts.setHealth(player.health);
         // place the player at the location
         
         timer = new Timer(16, this); // game loop
@@ -74,6 +77,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         
         drawMap(g);   // draw tiles
         player.draw(g); // draw player
+        hearts.draw(g); //draw hearts
         
         // Draw the enemies on the screen
         for(Rat r : rats) {

@@ -10,9 +10,9 @@ public class MainMenuScreen extends JPanel implements MouseListener, MouseMotion
 
     private GameFrame frame;
 
-    private Rectangle playButton = new Rectangle(490, 250, 300, 100);
-    private Rectangle statsButton = new Rectangle(490, 400, 300, 100);
-    private Rectangle quitButton = new Rectangle(490, 550, 300, 100);
+    private Rectangle playButton  = new Rectangle(554, 248, 300, 100);
+    private Rectangle statsButton = new Rectangle(554, 398, 300, 100);
+    private Rectangle quitButton  = new Rectangle(554, 548, 300, 100);
 
     private Point mousePoint = new Point();
 
