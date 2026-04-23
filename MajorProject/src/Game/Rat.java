@@ -28,7 +28,7 @@ public class Rat extends Enemy{
 	    long now = System.currentTimeMillis();
 	    if (now - lastTime > animationSpeed) {
 	        frameIndex++;
-	        if (frameIndex >= currentAnimation.length) {
+	        if (frameIndex >= (currentAnimation.length -4)) {
 	            frameIndex = 0;
 	        }
 	        lastTime = now;

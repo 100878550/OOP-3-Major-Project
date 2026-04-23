@@ -6,7 +6,8 @@ public class PowerupData {
     public enum Type {
         HEALTH,    
         SPEED,     
-        FIRE_RATE  
+        FIRE_RATE,
+        Ricochet
     }
     private static final Random random = new Random();
 

@@ -16,6 +16,7 @@ public class Player extends Entity {
 	int health = 5;
 	private int invincibilityTimer = 0;
 	private int flicker = 0;
+	boolean rebound = false;
 
     public Player(int x, int y) {
         super(x,y,4,loadImage());
@@ -39,9 +40,9 @@ public class Player extends Entity {
     //creates a bullet towards cursor
     public Projectile shootToward(int targetX, int targetY) {
 
+    	boolean rebound = this.rebound;
         int projectileSpeed = 10;
         int projectileTTL = 90;
-        boolean rebound = false;
         int projectileSize = 16;
 
         int startX = x + width / 2 - projectileSize / 2;
@@ -123,5 +124,8 @@ public class Player extends Entity {
     
 	public void increaseSpeed(int amount) {
 	    this.speed += amount;
+	}
+	public void setRebound(Boolean rebound) {
+		this.rebound = rebound;
 	}
 }

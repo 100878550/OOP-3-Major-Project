@@ -7,9 +7,6 @@ public class Stats {
     private static int roomsCleared;
 
     public Stats() {
-       
-    	// when created, it loads from the json file.
-        load();
     }
 
     // load function

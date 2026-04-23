@@ -61,7 +61,7 @@ public class Robot extends Enemy {
         // Add to the same projectile list the GameScreen uses
         projectiles.add(new Projectile(
             startX, startY, projectileSpeed, vx, vy, 
-            100, false, projectileSize, projectileSize, this
+            100, true, projectileSize, projectileSize, this
         ));
     }
 }

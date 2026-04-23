@@ -27,13 +27,16 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
 	public int deaths = 0;
 	
 	// for powerup images
-	private BufferedImage healthImg, speedImg, fireRateImg;
+	private BufferedImage healthImg, speedImg, fireRateImg,bulletBounce;
 	
 	
 	// set default powerups, could be null, wouldnt matter
 	private PowerupData.Type selectedPowerup = PowerupData.Type.HEALTH;
 	private PowerupData.Type door1Offer = PowerupData.Type.SPEED;
 	private PowerupData.Type door2Offer = PowerupData.Type.HEALTH;
+	
+	private Boolean roomBuffer = false;
+	
 	
 	
 	// create an array list to contain powerups.
@@ -59,6 +62,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
     private Room room; // room on screen
     private int lastRoom = -1; //make sure same room doesnt repeat
     private Player player; // player entity on screen
+    
+    
     private HeartDisplay hearts = new HeartDisplay(); // heart containers on screen
     
     
@@ -71,17 +76,22 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
 
     public GameScreen(GameFrame frame) {
         this.frame = frame;
-
+        
+        
+        
         setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
         
+        
+        Stats.load();
         
         // load powerup images 
         try {
             healthImg = ImageIO.read(getClass().getResource("/Assets/powerups/HeartFull.png"));
             speedImg = ImageIO.read(getClass().getResource("/Assets/powerups/Boots.png"));
             fireRateImg = ImageIO.read(getClass().getResource("/Assets/powerups/bullet.png"));
+            bulletBounce = ImageIO.read(getClass().getResource("/Assets/powerups/bulletBounce.png"));
         } catch (IOException e) { e.printStackTrace(); }
         // load sprites
         SpriteLoader loader = new SpriteLoader();
@@ -105,7 +115,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
         movePlayer();
         hearts.setHealth(player.getHealth());
         // place the player at the location
-       
+        selectedPowerup = PowerupData.Type.Ricochet;
+        
         timer = new Timer(16, this); // game loop
         timer.start();
     }
@@ -311,6 +322,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
             			if(en.isDead()) {
             				enemyIt.remove(); // remove the enemy if health is 0 or lower.
             				Stats.addEnemyKilled();
+            				Stats.save();
             			}
             			break; // stop checking other enemies for this bullet.
             		}
@@ -379,6 +391,9 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
 
         enemies.clear(); // remove old enemies
         projectiles.clear();
+        if(!roomBuffer) player.setRebound(false);
+        
+        roomBuffer = false;
         
         // randomize the next room to be picked
         do {
@@ -394,6 +409,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
         // reposition player to spawn tile
         movePlayer();
         Stats.addRoomCleared();
+        Stats.save();
     }
     
     // move the player to the new spawn location.
@@ -431,6 +447,10 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
     // prompts the user with a yes/no dialogue.
     private void gameOver() {
         timer.stop(); // Freeze the game
+        player = new Player(
+        	    0 * TILE_SIZE,
+        	    0 * TILE_SIZE
+        	);
         
         Stats.addDeath();
         Stats.save();
@@ -451,7 +471,6 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
     private void resetGame() {
         player.health = 5; // Reset health
         hearts.setHealth(player.getHealth()); // reset the hearts.
-        projectiles.clear();
         loadNewRoom(); // load a new room
         timer.start(); // Start the loop again
     }
@@ -475,6 +494,9 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
             case FIRE_RATE:
                 player.upgradeFireRate(2);
                 break;
+            case Ricochet:
+            	player.setRebound(true);
+            	roomBuffer = true;
         }
     }
     
@@ -530,6 +552,8 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener, M
             	return speedImg;
             case FIRE_RATE:    
             	return fireRateImg;
+            case Ricochet:
+            	return bulletBounce;
         }
 		return healthImg;
     }
