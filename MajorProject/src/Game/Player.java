@@ -1,6 +1,7 @@
 package Game;
 
 
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,12 +12,13 @@ import javax.imageio.ImageIO;
 public class Player extends Entity {
 
 	
-	
-	int health = 3;
+	private int maxshotCD = 12; // default frames between shots
+	int health = 5;
+	private int invincibilityTimer = 0;
+	private int flicker = 0;
 
     public Player(int x, int y) {
         super(x,y,4,loadImage());
-        this.health = health;
         
  
     }
@@ -33,7 +35,7 @@ public class Player extends Entity {
     public void update() {
     	
     }
-    
+  
     //creates a bullet towards cursor
     public Projectile shootToward(int targetX, int targetY) {
 
@@ -73,17 +75,53 @@ public class Player extends Entity {
         );
     }
     
+    @Override
+    public void draw(Graphics g) {
+    	if (isInvincible()) {
+    		flicker++;
+    		// draw player every 4 frames after being damaged
+    		if(flicker % 8 < 4) {
+    			return;
+    		}
+    	}
+    	g.drawImage(image, x, y, width, height, null);
+    }
+    
     public void takeDamage() {
+    	if(invincibilityTimer > 0) return; // if hit recently
         health--;
-        if (health < 0) {
-            health = 0;
-        }
+        if (health < 0) health = 0;
+        invincibilityTimer = 60;
     }
 
     public void gainHealth() {
         health++;
-        if (health > 3) {
-            health = 3;
+        if (health > 5) {
+            health = 5;
         }
     }
+	public int getHealth() {
+		return this.health;
+	}
+	public void updateInvincibility() {
+	    if (invincibilityTimer > 0) invincibilityTimer--;
+	}
+	// checks if the player is invincible
+	public boolean isInvincible() {
+		return invincibilityTimer > 0;
+	}
+	public int getFireRate() {
+		return maxshotCD;
+	}
+
+	  
+    public void upgradeFireRate(int amount) {
+    	// decrease the frames between possible shots
+    	maxshotCD -= amount;
+    	if(maxshotCD <4) maxshotCD = 4;
+    }
+    
+	public void increaseSpeed(int amount) {
+	    this.speed += amount;
+	}
 }

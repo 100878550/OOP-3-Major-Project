@@ -12,13 +12,9 @@ public class StatsScreen extends JPanel implements KeyListener {
 
     public StatsScreen(GameFrame frame)  {
         this.frame = frame;
-        //Need to add json helper that works with Stats
-        if (stats == null) {
-            this.stats = new Stats();
-        } else {
-            this.stats = stats;
-        }
-
+        
+        // triggers the stats constructor which has a load function built in.
+        this.stats = new Stats(); 
 
         addKeyListener(this);
         setFocusable(true);
@@ -71,7 +67,7 @@ public class StatsScreen extends JPanel implements KeyListener {
         String rooms = String.valueOf(stats.getRoomsCleared());
         fm = g.getFontMetrics();
         g.drawString(rooms, (getWidth() - fm.stringWidth(rooms)) / 2, 500);
-
+        
         
         g.setFont(new Font("Arial", Font.PLAIN, 18));
         fm = g.getFontMetrics();

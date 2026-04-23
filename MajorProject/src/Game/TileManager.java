@@ -32,7 +32,8 @@ public class TileManager {
             tiles[4] = new Tile(door,false); // Door, self explanatory
             tiles[5] = new Tile(black,true); // BLACK!
             tiles[6] = new Tile(floor,false); // Drop tile.
-            
+            tiles[7] = new Tile(black,true); // 1st Drop display
+            tiles[8] = new Tile(black, true); // 2nd Drop display
             	
 
         } catch (IOException e) {

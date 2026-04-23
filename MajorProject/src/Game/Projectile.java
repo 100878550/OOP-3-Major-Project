@@ -35,7 +35,7 @@ public class Projectile extends Entity {
 
     private static BufferedImage loadImage() {
         try {
-            return ImageIO.read(Player.class.getResource("/assets/projectiles/bullet.png"));
+            return ImageIO.read(Projectile.class.getResource("/assets/projectiles/bullet.png"));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -119,4 +119,5 @@ public class Projectile extends Entity {
     public double getVY() {
         return vy;
     }
+
 }

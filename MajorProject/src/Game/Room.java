@@ -11,7 +11,17 @@ public class Room {
 
     // Get tile ID at position
     public int getTileId(int row, int col) {
-        return map[row][col];
+        
+        if (row >= 0 && row < map.length) {
+            
+        	
+            if (col >= 0 && col < map[row].length) {
+                return map[row][col];
+            }
+        }
+        
+        // Return a default "Black" tile if out of bounds to avoid a crash
+        return 5; 
     }
 
     public int getRows() {

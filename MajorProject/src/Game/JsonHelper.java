@@ -7,7 +7,7 @@ public class JsonHelper {
 
 
 // Constants
-static final String STATS_JSON = "storage\\stats.json";
+static final String STATS_JSON = "storage/stats.json";
 
 // Writes stats into the json file (creating it if necessary)
 	public static void WriteJSON(int kills, int deaths, int rooms) {
@@ -24,7 +24,7 @@ if (!stats.exists()) {
 // If file does not exist
 try {
 
-// Create a new file
+// Create a new filea
 stats.createNewFile();
 } 
 

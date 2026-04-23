@@ -2,59 +2,53 @@ package Game;
 
 public class Stats {
 
-    private int enemiesKilled;
-    private int deaths;
-    private int roomsCleared;
+    private static int enemiesKilled;
+    private static int deaths;
+    private static int roomsCleared;
 
     public Stats() {
-        enemiesKilled = 0;
-        deaths = 0;
-        roomsCleared = 0;
+       
+    	// when created, it loads from the json file.
+        load();
     }
 
-    // Getters
-    public int getEnemiesKilled() {
-        return enemiesKilled;
+    // load function
+    // loads, naturally. uses methods from the jsonhelper class.
+    public static void load() {
+        String json = JsonHelper.ReadJSON();
+        if (json == null || json.isEmpty()) return;
+
+        try {
+            enemiesKilled = Integer.parseInt(parseJsonValue(json, "kills"));
+            deaths = Integer.parseInt(parseJsonValue(json, "deaths"));
+            roomsCleared = Integer.parseInt(parseJsonValue(json, "rooms"));
+        } catch (Exception e) {
+            System.err.println("Error parsing stats: " + e.getMessage());
+        }
     }
 
-    public int getDeaths() {
-        return deaths;
+    // saves the changes to the JSON file
+    public static void save() {
+        JsonHelper.WriteJSON(enemiesKilled, deaths, roomsCleared);
     }
 
-    public int getRoomsCleared() {
-        return roomsCleared;
+    // grabs values between quotes
+    private static String parseJsonValue(String json, String key) {
+        // Looks for "kills":"
+        String search = "\"" + key + "\":\""; 
+        int start = json.indexOf(search) + search.length();
+        // Finds the next " after the value
+        int end = json.indexOf("\"", start); 
+        return json.substring(start, end);
     }
 
-    // Setters
-    public void setEnemiesKilled(int enemiesKilled) {
-        this.enemiesKilled = enemiesKilled;
-    }
+    
+    public int getEnemiesKilled() { return enemiesKilled; }
+    public int getDeaths() { return deaths; }
+    public int getRoomsCleared() { return roomsCleared; }
 
-    public void setDeaths(int deaths) {
-        this.deaths = deaths;
-    }
-
-    public void setRoomsCleared(int roomsCleared) {
-        this.roomsCleared = roomsCleared;
-    }
-
-    // Increment methods 
-    public void addEnemyKilled() {
-        enemiesKilled++;
-    }
-
-    public void addDeath() {
-        deaths++;
-    }
-
-    public void addRoomCleared() {
-        roomsCleared++;
-    }
-
-    // Optional reset
-    public void reset() {
-        enemiesKilled = 0;
-        deaths = 0;
-        roomsCleared = 0;
-    }
+    // methods to increment
+    public static void addEnemyKilled() { enemiesKilled++; }
+    public static void addDeath() { deaths++; }
+    public static void addRoomCleared() { roomsCleared++; }
 }

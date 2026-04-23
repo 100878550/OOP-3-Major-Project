@@ -1,4 +1,5 @@
 package Game;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 public class Rat extends Enemy{
 
@@ -10,18 +11,20 @@ public class Rat extends Enemy{
 	private int animationSpeed = 120;
 	private long lastTime;
 	
+	// rats chase you down and inflict contact or bite damage.
 	public Rat(BufferedImage[][] allSprites, int x, int y) {
-	    super(x, y); // Fixes the super() error
+	    // Pass the first frame of the walk animation as the default 'image'
+	    super(x, y, allSprites[1][0], 3); 
+	    this.speed = 3;
 	    
 	    if (allSprites != null) {
-	        // Row 1 is Walk Down in your sprite sheet
-	        this.currentAnimation = allSprites[ROW_WALK_DOWN]; 
+	        this.currentAnimation = allSprites[1]; 
 	    }
-	    
 	    this.lastTime = System.currentTimeMillis();
 	}
-	public void update() {
-	    // 1. Handle Animation (the code we already fixed)
+	@Override
+	public void update(Entity player, Room room, TileManager tileManager, int tileSize) {
+	   
 	    long now = System.currentTimeMillis();
 	    if (now - lastTime > animationSpeed) {
 	        frameIndex++;
@@ -31,15 +34,28 @@ public class Rat extends Enemy{
 	        lastTime = now;
 	    }
 
-	    // 2. Handle Movement (Simple test)
-	    // Make the rat crawl slowly to the right
-	    this.x += 1; 
+	    
+	    // directional variables.
+	    int dx = 0;
+	    int dy = 0;
+
+	    // Determine horizontal direction
+	    if (player.getX() > this.x) dx = speed;
+	    else if (player.getX() < this.x) dx = -speed;
+
+	    // Determine vertical direction
+	    if (player.getY() > this.y) dy = speed;
+	    else if (player.getY() < this.y) dy = -speed;
+
+	  
+	    // move the rat.
+	    move(dx, dy, room, tileManager, tileSize, true);
 	}
 
-	public void draw(java.awt.Graphics g) {
+	public void draw(Graphics g) {
 	    if (currentAnimation != null && frameIndex < currentAnimation.length) {
-	        // Draw the rat! Change 32 to your actual sprite size
-	        g.drawImage(currentAnimation[frameIndex], (int)x, (int)y, 32, 32, null);
+
+	        g.drawImage(currentAnimation[frameIndex], (int)x, (int)y, 48, 48, null);
 	    }
 	}
 }

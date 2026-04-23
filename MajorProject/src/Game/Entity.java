@@ -90,4 +90,16 @@ public abstract class Entity {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	public void move() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void update(Entity entity, Room room, TileManager tileManager, int tileSize) {
+		// TODO Auto-generated method stub
+		
+	}
 }

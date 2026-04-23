@@ -9,8 +9,8 @@ public class HeartDisplay {
     private BufferedImage fullHeart;
     private BufferedImage emptyHeart;
 
-    private final int maxHearts = 3;
-    private int currentHealth = 3;
+    private final int maxHearts = 5;
+    private int currentHealth = 5;
 
     private int x = 20;
     private int y = 10;
@@ -26,12 +26,12 @@ public class HeartDisplay {
         }
     }
 
-    //checks if sets current health between 0-3
+    //checks if sets current health between 0-5
     public void setHealth(int health) {
         if (health < 0) {
             currentHealth = 0;
-        } else if (health > 3) {
-            currentHealth = 3;
+        } else if (health > 5) {
+            currentHealth = 5;
         } else {
             currentHealth = health;
         }

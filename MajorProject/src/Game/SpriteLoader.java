@@ -28,8 +28,7 @@ public class SpriteLoader {
             
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                	BufferedImage sub = sheet.getSubimage(j * width, i * height, width, height);
-                    // Extract the specific frame
+                    // Just do this once!
                     sprites[i][j] = sheet.getSubimage(j * width, i * height, width, height);
                 }
             }
