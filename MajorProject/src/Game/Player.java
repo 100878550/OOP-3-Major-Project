@@ -33,6 +33,7 @@ public class Player extends Entity {
     	
     }
     @Override
+    /*
     public void move(int dx, int dy, Room level, TileManager tileManager, int tileSize) {
 
         // check X movement
@@ -47,6 +48,7 @@ public class Player extends Entity {
             y += dy;
         }
     }
+    */
     
     public void takeDamage() {
     	this.health--;
