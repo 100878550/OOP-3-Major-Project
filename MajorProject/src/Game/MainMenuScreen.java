@@ -10,9 +10,10 @@ public class MainMenuScreen extends JPanel implements MouseListener, MouseMotion
 
     private GameFrame frame;
 
-    private Rectangle playButton  = new Rectangle(554, 248, 300, 100);
-    private Rectangle statsButton = new Rectangle(554, 398, 300, 100);
-    private Rectangle quitButton  = new Rectangle(554, 548, 300, 100);
+    private Rectangle playButton   = new Rectangle(554, 198, 300, 100);
+    private Rectangle guideButton  = new Rectangle(554, 348, 300, 100);
+    private Rectangle statsButton  = new Rectangle(554, 498, 300, 100);
+    private Rectangle quitButton   = new Rectangle(554, 648, 300, 100);
 
     private Point mousePoint = new Point();
 
@@ -30,9 +31,11 @@ public class MainMenuScreen extends JPanel implements MouseListener, MouseMotion
         g.fillRect(0, 0, getWidth(), getHeight());
 
         drawButton(g, playButton, "PLAY");
+        drawButton(g, guideButton, "GUIDE");  
         drawButton(g, statsButton, "STATS");
         drawButton(g, quitButton, "QUIT");
     }
+    
 
     private void drawButton(Graphics g, Rectangle button, String text) {
         boolean hover = button.contains(mousePoint);
@@ -58,6 +61,8 @@ public class MainMenuScreen extends JPanel implements MouseListener, MouseMotion
 
         if (playButton.contains(click)) {
             frame.showGame();
+        } else if (guideButton.contains(click)) {  
+            frame.showGuide();
         } else if (statsButton.contains(click)) {
             frame.showStats();
         } else if (quitButton.contains(click)) {

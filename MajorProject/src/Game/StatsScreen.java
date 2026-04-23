@@ -7,14 +7,23 @@ import java.awt.event.*;
 public class StatsScreen extends JPanel implements KeyListener {
 
     private GameFrame frame;
+    private Stats stats;
+    
 
-    public StatsScreen(GameFrame frame) {
+    public StatsScreen(GameFrame frame)  {
         this.frame = frame;
+        if (stats == null) {
+            this.stats = new Stats();
+        } else {
+            this.stats = stats;
+        }
+        stats.setDeaths(100);
 
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -24,23 +33,48 @@ public class StatsScreen extends JPanel implements KeyListener {
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g.setColor(Color.WHITE);
-        
-        // Hardcoding these values isnt very smart.
-        // need to figure out another way to do this.
-        
-        //Highscore Stats
-        g.drawString("HIGHSCORE:", 420, 200);
-        g.drawString("99999999", 500, 200); //Placeholder Number
-        
-        //Kills Stats
-        g.drawString("KILLS:", 420, 220);
-        g.drawString("9999", 500, 220); //Placeholder Number
-        
-        
-        
-        g.drawString("Total Rooms Cleared",420,240);
-        g.drawString("5",540,240); // place holder
 
+        FontMetrics fm;
+
+        // ===== TITLE =====
+        g.setFont(new Font("Arial", Font.BOLD, 48));
+        fm = g.getFontMetrics();
+        g.drawString("STATS", (getWidth() - fm.stringWidth("STATS")) / 2, 100);
+
+        // ===== ENEMIES KILLED =====
+        g.setFont(new Font("Arial", Font.BOLD, 28));
+        fm = g.getFontMetrics();
+        g.drawString("ENEMIES KILLED", (getWidth() - fm.stringWidth("ENEMIES KILLED")) / 2, 220);
+
+        g.setFont(new Font("Arial", Font.PLAIN, 26));
+        String kills = String.valueOf(stats.getEnemiesKilled());
+        fm = g.getFontMetrics();
+        g.drawString(kills, (getWidth() - fm.stringWidth(kills)) / 2, 260);
+
+        // ===== DEATHS =====
+        g.setFont(new Font("Arial", Font.BOLD, 28));
+        fm = g.getFontMetrics();
+        g.drawString("DEATHS", (getWidth() - fm.stringWidth("DEATHS")) / 2, 340);
+
+        g.setFont(new Font("Arial", Font.PLAIN, 26));
+        String deaths = String.valueOf(stats.getDeaths());
+        fm = g.getFontMetrics();
+        g.drawString(deaths, (getWidth() - fm.stringWidth(deaths)) / 2, 380);
+
+        // ===== ROOMS CLEARED =====
+        g.setFont(new Font("Arial", Font.BOLD, 28));
+        fm = g.getFontMetrics();
+        g.drawString("ROOMS CLEARED", (getWidth() - fm.stringWidth("ROOMS CLEARED")) / 2, 460);
+
+        g.setFont(new Font("Arial", Font.PLAIN, 26));
+        String rooms = String.valueOf(stats.getRoomsCleared());
+        fm = g.getFontMetrics();
+        g.drawString(rooms, (getWidth() - fm.stringWidth(rooms)) / 2, 500);
+
+        // ===== FOOTER =====
+        g.setFont(new Font("Arial", Font.PLAIN, 18));
+        fm = g.getFontMetrics();
+        g.drawString("Press ESC to return to menu", (getWidth() - fm.stringWidth("Press ESC to return to menu")) / 2, 850);
     }
 
     @Override

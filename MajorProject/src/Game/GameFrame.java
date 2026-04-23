@@ -6,6 +6,8 @@ import javax.swing.SwingUtilities;
 
 public class GameFrame extends JFrame {
 
+
+	
     public GameFrame() {
         setTitle("Game");
         setSize(1424, 935);
@@ -28,6 +30,10 @@ public class GameFrame extends JFrame {
 
     public void showStats() {
         setScreen(new StatsScreen(this));
+    }
+    
+    public void showGuide() {
+        setScreen(new GuideScreen(this));
     }
 
     private void setScreen(JPanel screen) {

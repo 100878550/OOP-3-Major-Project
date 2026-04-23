@@ -10,7 +10,7 @@ public class JsonHelper {
 static final String STATS_JSON = "storage\\stats.json";
 
 // Writes stats into the json file (creating it if necessary)
-	public static void WriteJSON(int scores, int kills, int deaths, int rooms) {
+	public static void WriteJSON(int kills, int deaths, int rooms) {
 
 // Initializes the file
 File stats = new File(STATS_JSON);
@@ -44,7 +44,6 @@ output = new FileWriter(stats);
 // Writes data into the file
 output.write(
 "{\n"
-+ "\"scores\":\"" + scores + "\",\n"
 + "\"kills\":\"" + kills + "\",\n"
 + "\"deaths\":\"" + deaths + "\",\n"
 + "\"rooms\":\"" + rooms + "\"\n"
@@ -76,7 +75,7 @@ String readStats = "";
 if (!stats.exists()) {
 
 // If file does not exist
-WriteJSON(0, 0, 0, 0);
+WriteJSON( 0, 0, 0);
 
 }
 
