@@ -14,8 +14,8 @@ public class HeartDisplay {
 
     private int x = 20;
     private int y = 10;
-    private int size = 48;
-    private int spacing = 10;
+    private int size = 64;
+    private int spacing = 2;
 
     public HeartDisplay() {
         try {

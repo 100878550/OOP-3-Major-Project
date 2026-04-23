@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+
 // Handles player movement and collision
 public class Player extends Entity {
 
@@ -34,12 +35,16 @@ public class Player extends Entity {
     }
     
     public void takeDamage() {
-    	this.health--;
-    }
-    public void gainHealth() {
-    	this.health++;
+        health--;
+        if (health < 0) {
+            health = 0;
+        }
     }
 
-    
-   
+    public void gainHealth() {
+        health++;
+        if (health > 3) {
+            health = 3;
+        }
+    }
 }
