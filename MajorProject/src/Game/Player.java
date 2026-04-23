@@ -32,23 +32,6 @@ public class Player extends Entity {
     public void update() {
     	
     }
-    @Override
-    /*
-    public void move(int dx, int dy, Room level, TileManager tileManager, int tileSize) {
-
-        // check X movement
-        Rectangle nextX = new Rectangle(x + dx, y, width, height);
-        if (!collides(nextX, level, tileManager, tileSize)) {
-            x += dx;
-        }
-
-        // check Y movement
-        Rectangle nextY = new Rectangle(x, y + dy, width, height);
-        if (!collides(nextY, level, tileManager, tileSize)) {
-            y += dy;
-        }
-    }
-    */
     
     public void takeDamage() {
     	this.health--;

@@ -114,9 +114,11 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         if (up) dy -= currentSpeed; // add speed going up
         if (down) dy += currentSpeed;// add speed going down
         
-
+        
+        boolean collision = player.collides(getBounds(), room, tileManager, currentSpeed);
+        
         // move the player 
-        player.move(dx, dy, room, tileManager, TILE_SIZE);
+        player.move(dx, dy, room, tileManager, TILE_SIZE,collision);
         
         
         // check where the player is
