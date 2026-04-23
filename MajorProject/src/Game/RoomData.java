@@ -9,6 +9,9 @@ public class RoomData {
 	// 2 = Player Spawn
 	// 3 = enemy spawn
 	// 4 = door
+	// 5 = Black
+	// 6 = Loot
+	
 	public static final int[][] ROOM_1 = {
 	    {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
 	    {5,1,1,1,1,1,4,1,1,1,1,1,1,1,1,4,1,1,1,1,1,5},

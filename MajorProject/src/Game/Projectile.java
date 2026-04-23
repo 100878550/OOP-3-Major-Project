@@ -16,11 +16,10 @@ public class Projectile extends Entity {
 
     private Object owner;
 
-    public Projectile(int x, int y, int speed,
-                      double vx, double vy,
-                      int ttl, boolean rebound,
-                      int width, int height,
+    public Projectile(int x, int y, int speed, double vx, double vy,
+                      int ttl, boolean rebound, int width, int height,
                       Object owner) {
+    	
         super(x, y, speed, loadImage());
 
         this.vx = vx;
