@@ -12,12 +12,13 @@ public class StatsScreen extends JPanel implements KeyListener {
 
     public StatsScreen(GameFrame frame)  {
         this.frame = frame;
+        //Need to add json helper that works with Stats
         if (stats == null) {
             this.stats = new Stats();
         } else {
             this.stats = stats;
         }
-        stats.setDeaths(100);
+
 
         addKeyListener(this);
         setFocusable(true);
@@ -36,12 +37,12 @@ public class StatsScreen extends JPanel implements KeyListener {
 
         FontMetrics fm;
 
-        // ===== TITLE =====
+        //title
         g.setFont(new Font("Arial", Font.BOLD, 48));
         fm = g.getFontMetrics();
         g.drawString("STATS", (getWidth() - fm.stringWidth("STATS")) / 2, 100);
 
-        // ===== ENEMIES KILLED =====
+        //enemies killed
         g.setFont(new Font("Arial", Font.BOLD, 28));
         fm = g.getFontMetrics();
         g.drawString("ENEMIES KILLED", (getWidth() - fm.stringWidth("ENEMIES KILLED")) / 2, 220);
@@ -51,7 +52,7 @@ public class StatsScreen extends JPanel implements KeyListener {
         fm = g.getFontMetrics();
         g.drawString(kills, (getWidth() - fm.stringWidth(kills)) / 2, 260);
 
-        // ===== DEATHS =====
+        //deaths
         g.setFont(new Font("Arial", Font.BOLD, 28));
         fm = g.getFontMetrics();
         g.drawString("DEATHS", (getWidth() - fm.stringWidth("DEATHS")) / 2, 340);
@@ -61,7 +62,7 @@ public class StatsScreen extends JPanel implements KeyListener {
         fm = g.getFontMetrics();
         g.drawString(deaths, (getWidth() - fm.stringWidth(deaths)) / 2, 380);
 
-        // ===== ROOMS CLEARED =====
+        //rooms cleared
         g.setFont(new Font("Arial", Font.BOLD, 28));
         fm = g.getFontMetrics();
         g.drawString("ROOMS CLEARED", (getWidth() - fm.stringWidth("ROOMS CLEARED")) / 2, 460);
@@ -71,7 +72,7 @@ public class StatsScreen extends JPanel implements KeyListener {
         fm = g.getFontMetrics();
         g.drawString(rooms, (getWidth() - fm.stringWidth(rooms)) / 2, 500);
 
-        // ===== FOOTER =====
+        
         g.setFont(new Font("Arial", Font.PLAIN, 18));
         fm = g.getFontMetrics();
         g.drawString("Press ESC to return to menu", (getWidth() - fm.stringWidth("Press ESC to return to menu")) / 2, 850);

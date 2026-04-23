@@ -6,9 +6,14 @@ import java.awt.event.*;
 import java.util.Random;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
 
 // Main gameplay file.
-public class GameScreen extends JPanel implements ActionListener, KeyListener {
+public class GameScreen extends JPanel implements ActionListener, KeyListener, MouseListener {
 
 	
 	private BufferedImage[][] ratSpriteSheet; // Store the sliced images here
@@ -18,11 +23,16 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
     private GameFrame frame; // window
     private Timer timer; //??????
 
+    private ArrayList<Projectile> projectiles = new ArrayList<>();
+
+    private int shootCooldown = 0;
+    private static final int SHOOT_COOLDOWN_MAX = 12; // frames between shots
     
     private final int TILE_SIZE = 64; 
 
     private TileManager tileManager;
     private Room room; // room on screen
+    private int lastRoom = -1; //make sure same room doesnt repeat
     private Player player; // player entity on screen
     private HeartDisplay hearts = new HeartDisplay(); // heart containers on screen
     
@@ -39,6 +49,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
         setFocusable(true);
         addKeyListener(this);
+        addMouseListener(this);
         
         
         
@@ -63,7 +74,7 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         movePlayer();
         hearts.setHealth(player.health);
         // place the player at the location
-        
+       
         timer = new Timer(16, this); // game loop
         timer.start();
     }
@@ -78,6 +89,12 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         drawMap(g);   // draw tiles
         player.draw(g); // draw player
         hearts.draw(g); //draw hearts
+        
+        //draws all projectiles
+        
+        for (Projectile p : projectiles) {
+            p.draw(g);
+        }
         
         // Draw the enemies on the screen
         for(Rat r : rats) {
@@ -109,6 +126,9 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         int dx = 0;
         int dy = 0;
 
+        if (shootCooldown > 0) {
+            shootCooldown--;
+        }
         
         // create player speed and check whether sprint is true. if true multiply by 2 if not, keep it chill
         int currentSpeed = sprint ? player.getSpeed() * 2 : player.getSpeed();
@@ -147,6 +167,20 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         	if (e_rat instanceof Rat) {
         		((Rat) e_rat).update();
         	}
+        }
+        
+        //allows for removing while looping
+        Iterator<Projectile> it = projectiles.iterator();
+
+        //loops through and updates projectiles
+        while (it.hasNext()) {
+            Projectile p = it.next();
+            p.update(room, tileManager, TILE_SIZE);
+
+            //deletes bullet if ttl is 0 or collision
+            if (!p.isAlive()) {
+                it.remove();
+            }
         }
         
         repaint(); // redraw screen
@@ -205,12 +239,16 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
 
     // Method to load a new room
     private void loadNewRoom() {
+    	int randomRoom;
 
         rats.clear(); // remove old enemies
 
         // randomize the next room to be picked
-        int randomRoom = random.nextInt(1, RoomData.getRoomCount() -1);
+        do {
+            randomRoom = random.nextInt(1, RoomData.getRoomCount() -1);
+        } while (randomRoom == lastRoom);
         // set the randomized room to the current active one
+        lastRoom = randomRoom;
         room = RoomData.getRoom(randomRoom);
 
         // call the enemy spawn method
@@ -234,4 +272,25 @@ public class GameScreen extends JPanel implements ActionListener, KeyListener {
         }
     }
     public void keyTyped(KeyEvent e) {}
+    
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    	if (e.getButton() == MouseEvent.BUTTON1 && shootCooldown == 0) {
+            projectiles.add(player.shootToward(e.getX(), e.getY()));
+            shootCooldown = SHOOT_COOLDOWN_MAX;
+        }
+    }
+
+    @Override public void mouseClicked(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+    
+    
+    
+    
 }
+
+	

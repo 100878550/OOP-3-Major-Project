@@ -49,7 +49,7 @@ public class GuideScreen extends JPanel implements KeyListener {
 
         g.setFont(new Font("Arial", Font.PLAIN, 22));
         fm = g.getFontMetrics();
-        g.drawString("Click / Space - Attack", (getWidth() - fm.stringWidth("Click / Space - Attack")) / 2, 360);
+        g.drawString("Click - Attack", (getWidth() - fm.stringWidth("Click - Attack")) / 2, 360);
         g.drawString("Avoid enemies to survive", (getWidth() - fm.stringWidth("Avoid enemies to survive")) / 2, 390);
 
         //objective
